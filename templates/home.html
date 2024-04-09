@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; 
+        }
+
+        
+
+       
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to next line */
+    justify-content: space-between;
+}
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .recipe-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .recipe-description {
+            margin-bottom: 10px;
+        }
+
+        .recipe-box {
+            display: flex;
+    flex-direction: column; /* Stack child elements vertically */
+    justify-content: center; /* Center child elements vertically */
+    align-items: center; /* Center child elements horizontally */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    width: calc(50% - 20px); /* Set width to 50% of container with margin */
+}
+
+.recipe-image {
+    max-width: 100%;
+    height: 500px; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensure the image covers the entire space */
+    border-radius: 5px;
+    
+}
+        .navbar {
+            background-color: #fff; /* Set navbar background color */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 0 0 20px 20px; /* Add border radius to bottom corners */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+
+        .navbar-logo {
+            width: 70px;
+            height: 70px; 
+            border-radius: 50%; 
+            overflow: hidden; 
+        }
+
+        .navbar-logo img {
+            width: 100%; 
+            height: auto; 
+        }
+
+        .navbar-menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end; /* Align menu to the right */
+        }
+
+        .navbar-menu li {
+            margin-left: 15px; 
+        }
+
+        .navbar-menu li a {
+            text-decoration: none;
+            color: #000; 
+            font-weight: bold;
+            padding: 8px 12px; 
+            transition: background-color 0.3s; 
+            font-size: 16px;
+            display: flex; 
+            align-items: center; 
+        }
+
+        .navbar-menu li a:hover {
+            background-color: #8360d4; 
+            color: #fff; 
+        }
+        .button-container {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+}
+
+.recipe-button {
+    background-color: #8360d4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-button {
+    margin-right: 10px; /* Adjust margin between buttons */
+}
+
+.edit-button {
+    margin-left: 10px; /* Adjust margin between buttons */
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="{% static 'recipe.png' %}" alt="Logo">
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="#">Home</a></li>
+            
+            
+            
+            <li><a href="{% url 'create_recipe' %}">Create recipe</a></li>
+          
+
+
+
+
+            <li><a href="{% url 'logout' %}">logout</a></li>
+            
+        </ul>
+    </nav>
+    
+        <h1>Recipes</h1>
+        <div class="container">
+        {% for recipe in recipes %}
+            <div class="recipe-box">
+                <h2 class="recipe-title">{{ recipe.title }}</h2>
+                <p class="recipe-description">{{ recipe.description }}</p>
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-image">
+                <h3>Ingredients</h3>
+                
+                    
+                        
+                        <p>{{ recipe.ingredients }}</p>
+                
+                <h3>Instructions</h3>
+                <p>{{ recipe.instructions }}</p>
+                <div class="button-container">
+                    <form method="post" action="{% url 'remove_recipe' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                        <button type="submit" class="recipe-button remove-button">
+                            Remove Recipe
+                        </button>
+                    </form>
+                    <form method="get" action="{% url 'edit_recipe' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                        <button type="submit" class="recipe-button edit-button">
+                            Edit Recipe
+                        </button>
+                    </form>
+                </div>
+                
+                
+            </div>
+            
+        {% endfor %}
+    </div>
+</body>
+</html>
