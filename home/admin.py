@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe
+from .models import Recipe, delivery
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'created_at')
@@ -10,3 +10,4 @@ class RecipeAdmin(admin.ModelAdmin):
 
 admin.site.register(Recipe, RecipeAdmin)
 
+admin.site.register(delivery)

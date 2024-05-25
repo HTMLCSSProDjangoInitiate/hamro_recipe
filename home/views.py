@@ -69,7 +69,7 @@ def remove_recipe(request):
                 recipe = get_object_or_404(Recipe, id=recipe_id)
                 recipe.delete()
             except Recipe.DoesNotExist:
-                # Handle case where recipe with given ID does not exist
+                
                 pass
     return redirect('home')
 
@@ -80,7 +80,7 @@ def edit_recipe(request):
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Assuming 'home' is the name of your home page URL pattern
+            return redirect('home')  
     else:
         recipe_id = request.GET.get('recipe_id')
         recipe = Recipe.objects.get(id=recipe_id)

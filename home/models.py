@@ -13,3 +13,8 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+class delivery(models.Model):
+    name = models.CharField(max_length=20)
+    created_at = models.DateTimeField()
+    order = models.ForeignKey(Recipe,related_name="delivery_order", on_delete=models.CASCADE)
+    
